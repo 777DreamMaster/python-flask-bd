@@ -1,12 +1,22 @@
 version: "3.8"
 services:
   web:
-    build: .
+    image: 777dreammaster/counter
+    depends_on:
+      - db
     ports:
       - "5000:5000"
-    volumes:
-      - .:/code
     environment:
       FLASK_ENV: development
-  redishost:
-    image: "redis:alpine"
+
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hitcount
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
